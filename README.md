@@ -9,6 +9,7 @@
 ### ✨ Features
 
 * 🧩 **Native PDF rendering** inside Flet layouts.
+* 🔍 **Interactive Zoom**: Support for zooming in and out with configurable limits.
 * 📐 **High-resolution** rendering with custom DPI.
 * 🖼️ **Flexible image fitting** using `BoxFit`.
 * 📱 **Fully responsive** (via `expand=True`).
@@ -35,18 +36,33 @@ def main(page: Page):
             src="path/to/your/file.pdf",
             expand=True,
             dpi=300,
-            fitImage=BoxFit.FILL
+            fitImage=BoxFit.FILL,
+            enable_zoom=True
         )
     )
 
 run(main)
 ```
-### ⚠️ Important Behavior
+### 🔍 Zoom Control
+You can now fully control the viewing experience with the following properties:
 
-`PdfColumn` will not render anything if:
+min_zoom: Sets the minimum scale allowed (Default : 0.8).
 
-1. The provided **path does not exist**.
-2. The file path **does not end with `.pdf`**.
+max_zoom: Sets the maximum scale allowed to ensure quality and performance (Default : 2.5).
+### ⚠️ Important Behavior & Performance
+**1. Silent Failure**
+
+PdfColumn will not render anything if the provided path does not exist or does not end with .pdf.
+
+No exceptions ❌
+
+No error dialogs ❌
+
+No UI interruption ❌
+
+**2. Technical Performance Warning**
+
+[!WARNING] Resource Management: Be cautious when performing intensive property updates on the PdfColumn object after its initial call. If changes involve high values or frequent updates, it may cause a brief delay when closing the application as the component finishes processing tasks to ensure a stable exit.
 
 > [!IMPORTANT]
 > **This behavior is intentional:**
